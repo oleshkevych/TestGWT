@@ -1,0 +1,101 @@
+/** Add css rules here for your application. */
+
+h1 {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+body, td, a, div, .p {
+    font-family: arial, sans-serif
+}
+
+.actigate-share-panel{
+    margin: 12px;
+}
+
+.actigate-share-panel-upgrade{
+    border: 1px solid #FBD980;
+    background-color: #FFF1D2;
+    padding: 10px;
+    font-size: 14px;
+    margin: auto;
+    border-radius: 5px;
+    width: 100%;
+    float: right;
+}
+
+.actigate-share-panel-upgrade-label-upgrade{
+    color: #FEB71F;
+    float: right;
+}
+.actigate-share-panel-upgrade-label-inform{
+    font-style: italic;
+    float: left;
+
+}
+.actigate-share-panel-upgrade:after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+
+.actigate-share-panel-sharing-environments-panel-label-title{
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+.actigate-share-panel-environments-panel:after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.actigate-share-panel-environments-panel{
+    margin-bottom: 16px;
+    float: right;
+    width: 100%;
+}
+
+.actigate-share-panel-environments-table-images{
+    margin-left: 5px;
+}
+
+.actigate-share-panel-environments-right-labels{
+    color: #ECECEC;
+    text-decoration: underline;
+    margin-left: 12px;
+    font-size: 10px;
+}
+.actigate-share-panel-environments-right-panel{
+    float: right;
+}
+
+.actigate-share-panel-sharing-environments-panel-label-settings{
+    color: #62CAAF;
+    text-decoration: underline;
+    margin-bottom: 14px;
+    font-size: 14px;
+}
+
+.actigate-share-panel-repeat-panel{
+    background-color: #F1F1F1;
+    padding: 10px;
+    width: 100%;
+}
+
+.actigate-share-panel-repeat-list{
+    width: 100%;
+}
+
+.actigate-share-panel-title-label{
+    color: #E67E22;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom:10px;
+}
+
+.actigate-share-panel-inline-block{
+    display:inline-block;
+}
