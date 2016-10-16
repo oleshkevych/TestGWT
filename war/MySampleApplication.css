@@ -47,7 +47,7 @@ body, td, a, div, .p {
     font-size:15px;
     vertical-align:middle;
     cursor:pointer;
-    background-image: url(http://csscheckbox.com/checkboxes/lite-blue-check.png);
+    background-image: url("lite-blue-check.png");
     height: 15px;
     width: 15px;
 }
@@ -68,8 +68,14 @@ body, td, a, div, .p {
     float: right;
     cursor:pointer;
 }
+.actigate-share-panel-upgrade-label-numbers{
+    font-style: oblique;
+    font-size: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
 .actigate-share-panel-upgrade-label-inform{
-    font-style: italic;
+    font-style: oblique;
     float: left;
 
 }
@@ -84,12 +90,12 @@ body, td, a, div, .p {
     margin-bottom: 15px;
     font-size: 14px;
 }
+
 .actigate-share-panel-environments-panel::after{
     content: "";
     display: block;
     clear: both;
 }
-
 .actigate-share-panel-environments-panel{
     /*margin-bottom: 16px;*/
     /*float: right;*/
@@ -146,11 +152,11 @@ body, td, a, div, .p {
 .actigate-share-panel-repeat-list-hide>option{
     display: none;
 }
+
 .actigate-share-panel-checkbox-repeat>label{
     margin-left: 10px;
     font-weight: normal;
 }
-
 .actigate-share-panel-title-label{
     color: #E67E22;
     font-size: 16px;
@@ -160,16 +166,33 @@ body, td, a, div, .p {
 }
 
 .actigate-share-panel-member-field{
-    margin-right: 3px;
+    margin-right: 5px;
     margin-bottom: 10px;
+    width: 80%;
+}
+
+.actigate-share-panel-sharing-environments-panel-btn{
+    border-radius: 3px;
+    background-color: #62CAAF;
+    border: 3px solid #62CAAF;
+    color: #F1F1F1;
 }
 
 .actigate-share-panel-radio-btn{
     clear: both;
     float: left;
     margin-left: 10px;
+    cursor:pointer;
 }
 .actigate-share-panel-radio-btn>label{
     font-weight: normal;
     margin-left: 8px;
+}
+
+.actigate-share-panel-radio-btn>input{
+    height: 15px;
+    width: 15px;
+    color: cornflowerblue;
+    background-color: #F1F1F1;
+    border-color: darkgrey;
 }

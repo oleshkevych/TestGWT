@@ -2,6 +2,7 @@ package com.mySampleApplication.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
+import com.google.gwt.core.client.impl.AsyncFragmentLoader;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -9,6 +10,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.*;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Volodymyr Oleshkevych on 10/9/2016.
@@ -81,8 +85,22 @@ public class ShareWidget{
     }
 
     private void initUpgrade(int completeShares, int maxShares){
-        String informString = "Using " + completeShares + " of " + maxShares + " shares";
-        Label label = new  Label(informString);
+        Panel label = new HorizontalPanel();
+        Label l1 = new Label("Using ");
+        Label l2 = new Label(""+completeShares);
+        Label l3 = new Label(" of ");
+        Label l4 = new Label(""+maxShares);
+        Label l5 = new Label(" shares");
+
+        l2.setStylePrimaryName("actigate-share-panel-upgrade-label-numbers");
+        l4.setStylePrimaryName("actigate-share-panel-upgrade-label-numbers");
+//        String informString = "Using " + completeShares + " of " + maxShares + " shares";
+//        Label label = new  Label(informString);
+        label.add(l1);
+        label.add(l2);
+        label.add(l3);
+        label.add(l4);
+        label.add(l5);
         label.setStyleName("actigate-share-panel-upgrade-label-inform");
         upgradePanel.add(label);
         upgradeLabel.setStyleName("actigate-share-panel-upgrade-label-upgrade");
@@ -124,6 +142,7 @@ public class ShareWidget{
     private Panel sharingCategories(Image image, String groupName, boolean preview){
         CheckBox checkBox = new CheckBox();
         checkBox.setStylePrimaryName("actigate-share-panel-checkbox");
+//        checkBox.getElement().getFirstChild().getStyle().setBackgroundImage();
         Label groupNameLabel = new Label(groupName);
         Label previewLabel = new Label("Preview");
         Label shareLabel = new Label("Share now");
@@ -145,7 +164,18 @@ public class ShareWidget{
         labelsPanel.add(shareLabel);
         labelsPanel.addStyleName("actigate-share-panel-environments-right-panel");
         panel.add(labelsPanel);
+        labelsPanel.setVisible(false);
 //        initWidget(panel);
+        checkBox.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if(checkBox.isChecked()){
+                    labelsPanel.setVisible(true);
+                }else{
+                    labelsPanel.setVisible(false);
+                }
+            }
+        });
         return panel;
     }
 
@@ -173,6 +203,9 @@ public class ShareWidget{
         repeatCheckBox.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
+                Logger log = Logger.getLogger("MY LOG");
+                log.log(Level.INFO, "Click");
+
                 if(repeatCheckBox.isChecked()){
                     repeatListBoxFirst.setVisible(true);
                 }else{
@@ -193,6 +226,7 @@ public class ShareWidget{
                 repeatListBoxFirst.clear();
                 repeatListBoxFirst.addItem(repeatListBoxSecond.getItemText(repeatListBoxSecond.getSelectedIndex()));
                 repeatListBoxSecond.setVisible(false);
+                System.out.print("Click");
             }
         });
         repeatPanel.add(repeatListBoxFirst);
@@ -209,6 +243,7 @@ public class ShareWidget{
         textBox.setStylePrimaryName("actigate-share-panel-member-field");
         textBox.setEnabled(false);
         Button copyBtn = new Button("Copy");
+        copyBtn.setStylePrimaryName("actigate-share-panel-sharing-environments-panel-btn");
         textBoxPanel.add(textBox);
         textBoxPanel.add(copyBtn);
 
@@ -220,6 +255,7 @@ public class ShareWidget{
         nobodyRB.setStylePrimaryName("actigate-share-panel-radio-btn");
         groupMembersRB.setStylePrimaryName("actigate-share-panel-radio-btn");
         anyoneRB.setStylePrimaryName("actigate-share-panel-radio-btn");
+        nobodyRB.setChecked(true);
         panel.add(nobodyRB);
         panel.add(groupMembersRB);
         panel.add(anyoneRB);
