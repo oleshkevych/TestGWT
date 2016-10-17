@@ -1,0 +1,198 @@
+/** Add css rules here for your application. */
+
+h1 {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+body, td, a, div, .p {
+    font-family:sans-serif,  arial
+}
+.view-style{
+    border: 5px solid black;
+}
+
+.actigate-share-panel{
+    margin-left: 12px;
+    margin-top: 12px;
+    margin-right: 18px;
+}
+
+.actigate-share-panel-checkbox {
+    margin-right: 5px;
+    cursor:pointer;
+}
+.actigate-share-panel-checkbox>input{
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height:1px;
+    width:1px;
+    margin:-1px;
+    padding:0;
+    border:0;
+
+}
+
+.actigate-share-panel-checkbox>input[type=checkbox]:checked + label{
+    background-position: 0 -15px;
+}
+.actigate-share-panel-checkbox>label{
+    padding-left:20px;
+    display:inline-block;
+    line-height:15px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    font-size:15px;
+    vertical-align:middle;
+    cursor:pointer;
+    background-image: url("lite-blue-check.png");
+    height: 15px;
+    width: 15px;
+}
+
+.actigate-share-panel-upgrade{
+    border: 1px solid #FBD980;
+    background-color: #FFF1D2;
+    padding: 10px;
+    font-size: 14px;
+    margin: auto;
+    border-radius: 5px;
+    width: 100%;
+    float: right;
+}
+
+.actigate-share-panel-upgrade-label-upgrade{
+    color: #FEB71F;
+    float: right;
+    cursor:pointer;
+}
+.actigate-share-panel-upgrade-label-numbers{
+    font-style: oblique;
+    font-size: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.actigate-share-panel-upgrade-label-inform{
+    font-style: oblique;
+    float: left;
+
+}
+.actigate-share-panel-upgrade::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+.actigate-share-panel-sharing-environments-panel-label-title{
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.actigate-share-panel-environments-panel::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+.actigate-share-panel-environments-panel{
+    /*margin-bottom: 16px;*/
+    /*float: right;*/
+    /*width: 100%;*/
+}
+
+.actigate-share-panel-environments-table-images{
+    margin-left: 5px;
+    display: inline-table;
+}
+
+.actigate-share-panel-environments-right-labels{
+    color: #cccccc;
+    text-decoration: underline;
+    margin-left: 12px;
+    font-size: 12px;
+    float: right;
+    display: inline-block;
+    cursor:pointer;
+}
+
+.actigate-share-panel-environments-right-panel{
+    display: inline;
+    float: right;
+}
+
+.actigate-share-panel-environments-content-panel {
+    width: 100%;
+    padding-top: 10px;
+}
+
+.actigate-share-panel-sharing-environments-panel-label-settings{
+    color: #62CAAF;
+    text-decoration: underline;
+    margin-bottom: 14px;
+    font-size: 14px;
+    clear: both;
+    padding-top:8px ;
+    cursor:pointer;
+}
+
+.actigate-share-panel-repeat-panel{
+    background-color: #F1F1F1;
+    padding: 10px;
+    width: 100%;
+}
+
+.actigate-share-panel-repeat-list{
+    width: 100%;
+    margin-top: 5px;
+    overflow: hidden !important;
+}
+
+.actigate-share-panel-repeat-list-hide>option{
+    display: none;
+}
+
+.actigate-share-panel-checkbox-repeat>label{
+    margin-left: 10px;
+    font-weight: normal;
+}
+.actigate-share-panel-title-label{
+    color: #E67E22;
+    font-size: 16px;
+    padding-top: 10px;
+    margin-bottom:10px;
+    clear: both;
+}
+
+.actigate-share-panel-member-field{
+    margin-right: 5px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+.actigate-share-panel-sharing-environments-panel-btn{
+    border-radius: 3px;
+    background-color: #62CAAF;
+    border: 3px solid #62CAAF;
+    color: #F1F1F1;
+}
+
+.actigate-share-panel-radio-btn{
+    clear: both;
+    float: left;
+    margin-left: 10px;
+    cursor:pointer;
+}
+.actigate-share-panel-radio-btn>label{
+    font-weight: normal;
+    margin-left: 8px;
+}
+
+.actigate-share-panel-radio-btn>input{
+    height: 15px;
+    width: 15px;
+    color: cornflowerblue;
+    background-color: #F1F1F1;
+    border-color: darkgrey;
+}
