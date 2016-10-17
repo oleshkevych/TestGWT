@@ -1,16 +1,16 @@
 package com.mySampleApplication.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptException;
-import com.google.gwt.core.client.impl.AsyncFragmentLoader;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,15 +29,12 @@ public class ShareWidget{
     private Panel emailPanel = new FlowPanel();
     private Panel facebookPanel = new FlowPanel();
     private Panel slackPanel = new FlowPanel();
-//    private Label shareLabel = new Label("Share now");
-//    private Label previewLabel = new Label("Preview");
+
     private Label settingsLabel = new Label("Settings");
 
     private Panel repeatPanel = new FlowPanel();
 
     private Label shareLinkLabel = new Label("Share link");
-
-    private FlowPanel membersPanel = new FlowPanel();
 
     private SimplePanel view = new SimplePanel();
 
@@ -66,12 +63,7 @@ public class ShareWidget{
 
     private void init() {
         initUpgrade(5, 10);
-//        try {
-            initShareEnvironments();
-//        }catch(JavaScriptException j){
-//            System.out.print(j.getMessage());
-//
-//        }
+        initShareEnvironments();
         initRepeatPanel();
         shareLinkLabel.setStylePrimaryName("actigate-share-panel-title-label");
         mainContainer.add(upgradePanel);
@@ -82,6 +74,7 @@ public class ShareWidget{
         view.setWidget(mainContainer);
         view.setStylePrimaryName("actigate-share-panel");
 
+        initClickHandlers();
     }
 
     private void initUpgrade(int completeShares, int maxShares){
@@ -94,8 +87,7 @@ public class ShareWidget{
 
         l2.setStylePrimaryName("actigate-share-panel-upgrade-label-numbers");
         l4.setStylePrimaryName("actigate-share-panel-upgrade-label-numbers");
-//        String informString = "Using " + completeShares + " of " + maxShares + " shares";
-//        Label label = new  Label(informString);
+
         label.add(l1);
         label.add(l2);
         label.add(l3);
@@ -109,11 +101,9 @@ public class ShareWidget{
 
     }
 
-    private void initShareEnvironments()throws NullPointerException, JavaScriptException{
+    private void initShareEnvironments(){
         descriptionLabel.setStylePrimaryName("actigate-share-panel-title-label");
-//        previewLabel.setStylePrimaryName("actigate-share-panel-environments-right-labels");
-//        shareLabel.getElement().getStyle().setFloat(Float.RIGHT);
-//        previewLabel.getElement(*/).getStyle().setFloat(Float.RIGHT);
+
         Image emailImage = new Image(Images.INSTANCE.email());
         emailImage.setSize("20px", "15px");
         emailPanel.add(sharingCategories(emailImage, "(Group name)", true));
@@ -140,22 +130,22 @@ public class ShareWidget{
     }
 
     private Panel sharingCategories(Image image, String groupName, boolean preview){
-        CheckBox checkBox = new CheckBox();
+        final CheckBox checkBox = new CheckBox();
         checkBox.setStylePrimaryName("actigate-share-panel-checkbox");
-//        checkBox.getElement().getFirstChild().getStyle().setBackgroundImage();
+
         Label groupNameLabel = new Label(groupName);
         Label previewLabel = new Label("Preview");
         Label shareLabel = new Label("Share now");
         Panel panel = new FlowPanel();
         panel.setStylePrimaryName("actigate-share-panel-environments-content-panel");
-//        panel.addStyleName("form-inline");
+
         image.setStylePrimaryName("actigate-share-panel-environments-table-images");
         groupNameLabel.setStylePrimaryName("actigate-share-panel-environments-table-images");
         panel.add(checkBox);
         panel.add(image);
         panel.add(groupNameLabel);
 
-        Panel labelsPanel = new HorizontalPanel();
+        final Panel labelsPanel = new HorizontalPanel();
         if(preview){
             previewLabel.setStylePrimaryName("actigate-share-panel-environments-right-labels");
             labelsPanel.add(previewLabel);
@@ -165,11 +155,11 @@ public class ShareWidget{
         labelsPanel.addStyleName("actigate-share-panel-environments-right-panel");
         panel.add(labelsPanel);
         labelsPanel.setVisible(false);
-//        initWidget(panel);
+
         checkBox.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                if(checkBox.isChecked()){
+                if(checkBox.getValue()){
                     labelsPanel.setVisible(true);
                 }else{
                     labelsPanel.setVisible(false);
@@ -180,57 +170,80 @@ public class ShareWidget{
     }
 
     private void initRepeatPanel(){
-        CheckBox repeatCheckBox = new CheckBox("Repeat");
+        final CheckBox repeatCheckBox = new CheckBox();
+        Label repeatLabel = new Label("Repeat");
         repeatCheckBox.setStylePrimaryName("actigate-share-panel-checkbox");
-        repeatCheckBox.addStyleName("actigate-share-panel-checkbox-repeat");
+        repeatLabel.addStyleName("actigate-share-panel-checkbox-repeat");
         repeatPanel.add(repeatCheckBox);
+        repeatPanel.add(repeatLabel);
         repeatPanel.setStylePrimaryName("actigate-share-panel-repeat-panel");
-        ListBox repeatListBoxFirst = new ListBox();
-        repeatListBoxFirst.addItem("Daily");
-        repeatListBoxFirst.setVisibleItemCount(1);
-        repeatListBoxFirst.addStyleName("actigate-share-panel-repeat-list");
-        repeatListBoxFirst.addStyleName("actigate-share-panel-repeat-list-hide");
-        repeatListBoxFirst.setVisible(false);
 
-
-        final ListBox repeatListBoxSecond = new ListBox();
-        repeatListBoxSecond.addItem("Daily");
-        repeatListBoxSecond.addItem("Monthly");
-        repeatListBoxSecond.addItem("First day of month");
-        repeatListBoxSecond.setVisibleItemCount(3);
-        repeatListBoxSecond.addStyleName("actigate-share-panel-repeat-list");
-        repeatListBoxSecond.setVisible(false);
+        final ListBox repeatListBox = new ListBox();
+        repeatListBox.addItem("Daily");
+        repeatListBox.addItem("Monthly");
+        repeatListBox.addItem("First day of month");
+        repeatListBox.setVisibleItemCount(1);
+        repeatListBox.addStyleName("actigate-share-panel-repeat-list");
+        repeatListBox.setVisible(false);
         repeatCheckBox.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 Logger log = Logger.getLogger("MY LOG");
                 log.log(Level.INFO, "Click");
 
-                if(repeatCheckBox.isChecked()){
-                    repeatListBoxFirst.setVisible(true);
+                if(repeatCheckBox.getValue()){
+                    repeatListBox.setVisible(true);
+                    repeatPanel.addStyleName("actigate-share-panel-repeat-list-click-out");
                 }else{
-                    repeatListBoxFirst.setVisible(false);
-                    repeatListBoxSecond.setVisible(false);
+                    repeatListBox.setVisible(false);
+                    repeatPanel.removeStyleName("actigate-share-panel-repeat-list-click-out");
                 }
             }
         });
-        repeatListBoxFirst.addClickHandler(new ClickHandler() {
+        repeatListBox.addKeyDownHandler(new KeyDownHandler() {
             @Override
-            public void onClick(ClickEvent event) {
-                repeatListBoxSecond.setVisible(true);
+            public void onKeyDown(KeyDownEvent event) {
+                eventHandler(repeatListBox);
             }
         });
-        repeatListBoxSecond.addClickHandler(new ClickHandler() {
+        repeatListBox.addMouseDownHandler(new MouseDownHandler() {
             @Override
-            public void onClick(ClickEvent event) {
-                repeatListBoxFirst.clear();
-                repeatListBoxFirst.addItem(repeatListBoxSecond.getItemText(repeatListBoxSecond.getSelectedIndex()));
-                repeatListBoxSecond.setVisible(false);
-                System.out.print("Click");
+            public void onMouseDown(MouseDownEvent event) {
+                Logger log = Logger.getLogger("MY LOG");
+                log.log(Level.INFO, "+"+repeatListBox.getSelectedIndex());
+                if(repeatListBox.getSelectedIndex()==-1){
+                    repeatPanel.addStyleName("actigate-share-panel-repeat-list-click-out");
+                    repeatPanel.removeStyleName("actigate-share-panel-repeat-list-click");
+                    repeatListBox.setSelectedIndex(0);
+                }else {
+                    eventHandler(repeatListBox);
+                }
             }
         });
-        repeatPanel.add(repeatListBoxFirst);
-        repeatPanel.add(repeatListBoxSecond);
+
+        repeatPanel.add(repeatListBox);
+    }
+
+    private void eventHandler(final ListBox repeatListBox){
+        repeatListBox.setSelectedIndex(5);
+        repeatPanel.removeStyleName("actigate-share-panel-repeat-list-click-out");
+        repeatPanel.addStyleName("actigate-share-panel-repeat-list-click");
+        repeatListBox.addBlurHandler(new BlurHandler() {
+            @Override
+            public void onBlur(BlurEvent event) {
+                repeatPanel.addStyleName("actigate-share-panel-repeat-list-click-out");
+                repeatPanel.removeStyleName("actigate-share-panel-repeat-list-click");
+                repeatListBox.setSelectedIndex(0);
+            }
+        });
+        repeatListBox.addChangeHandler(new ChangeHandler() {
+            @Override
+            public void onChange(ChangeEvent event) {
+                repeatPanel.addStyleName("actigate-share-panel-repeat-list-click-out");
+                repeatPanel.removeStyleName("actigate-share-panel-repeat-list-click");
+            }
+        });
+
     }
 
     private Widget initMembersPanel(){
@@ -238,29 +251,74 @@ public class ShareWidget{
 //        formPanel.setStylePrimaryName("form-horizontal");
 
         Panel panel = new FlowPanel();
-        Panel textBoxPanel = new FlowPanel();
+        final Panel textBoxPanel = new FlowPanel();
         TextBox textBox = new TextBox();
         textBox.setStylePrimaryName("actigate-share-panel-member-field");
-        textBox.setEnabled(false);
+//        textBox.setEnabled(false);
         Button copyBtn = new Button("Copy");
-        copyBtn.setStylePrimaryName("actigate-share-panel-sharing-environments-panel-btn");
+        copyBtn.addStyleName("actigate-share-panel-sharing-environments-panel-btn");
+        copyBtn.addMouseDownHandler(new MouseDownHandler() {
+            @Override
+            public void onMouseDown(MouseDownEvent event) {
+                copyBtn.addStyleName("actigate-share-panel-sharing-environments-panel-btn-click");
+                copyBtn.removeStyleName("actigate-share-panel-sharing-environments-panel-btn");
+            }
+        });
+        copyBtn.addMouseUpHandler(new MouseUpHandler() {
+            @Override
+            public void onMouseUp(MouseUpEvent event) {
+                copyBtn.addStyleName("actigate-share-panel-sharing-environments-panel-btn");
+                copyBtn.removeStyleName("actigate-share-panel-sharing-environments-panel-btn-click");
+            }
+        });
         textBoxPanel.add(textBox);
         textBoxPanel.add(copyBtn);
+        textBoxPanel.setVisible(false);
 
         panel.add(textBoxPanel);
 
-        RadioButton nobodyRB = new RadioButton("sharingAddress", "Nobody");
+        final RadioButton nobodyRB = new RadioButton("sharingAddress", "Nobody");
         RadioButton groupMembersRB = new RadioButton("sharingAddress", "Group members only");
         RadioButton anyoneRB = new RadioButton("sharingAddress", "Anyone with link");
         nobodyRB.setStylePrimaryName("actigate-share-panel-radio-btn");
         groupMembersRB.setStylePrimaryName("actigate-share-panel-radio-btn");
         anyoneRB.setStylePrimaryName("actigate-share-panel-radio-btn");
-        nobodyRB.setChecked(true);
+        nobodyRB.setValue(true);
+
+        List<RadioButton> allRadioButtons = new ArrayList<RadioButton>();
+        allRadioButtons.add(nobodyRB);
+        allRadioButtons.add(groupMembersRB);
+        allRadioButtons.add(anyoneRB);
+
+        for (RadioButton radioButton : allRadioButtons) {
+            radioButton.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+                @Override
+                public void onValueChange(ValueChangeEvent<Boolean> event) {
+                    if(nobodyRB.getValue()){
+                    textBoxPanel.setVisible(false);
+                }else{
+                    textBoxPanel.setVisible(true);
+                }
+                }
+            });
+        }
+
         panel.add(nobodyRB);
         panel.add(groupMembersRB);
         panel.add(anyoneRB);
 //        formPanel.add(panel);
 
         return panel;
+    }
+
+    private void initClickHandlers(){
+        upgradeLabel.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                Logger log = Logger.getLogger("MY LOG");
+                log.log(Level.INFO, "Click");
+                log.log(Level.INFO, event.getRelativeElement().getClassName());
+            }
+        });
     }
 }
