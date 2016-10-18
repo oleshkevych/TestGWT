@@ -9,15 +9,139 @@ h1 {
 body, td, a, div, .p {
     font-family:sans-serif,  arial
 }
-.view-style{
-    border: 5px solid black;
-    height: 500px;
+
+@media screen and (max-width: 768px) {
+    .actigate-share-panel-sharing-environments-panel-btn.btn{
+        width: inherit !important;
+    }
 }
+
+@media screen and (max-width: 768px){
+    .btn {
+        width: 100%;
+    }
+}
+.view-style{
+    height: 800px;
+    width: 500px;
+    border: solid 5px black;
+}
+
+.actigate-admin-infocenters-members-newuserform{
+    margin-left:5px;
+
+}
+
+
+.actigate-admin-infocenters-members-newuserform .gwt-Label{
+    color: #555555;
+    font-size:17px;
+}
+
+.actigate-admin-infocenters-members-newuserform .gwt-TextBox{
+    padding:10px;
+}
+.actigate-admin-infocenters-members-validation-message{
+    -moz-transition: all 0.3s cubic-bezier(0.2, 0.3, 0.05, 1) 0s;
+    -webkit-transition: all 0.3s cubic-bezier(0.2, 0.3, 0.05, 1) 0s;
+    border-radius: 20px 6px 6px 20px;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 13px;
+    line-height: 35px;
+    margin-left: 210px;
+    opacity: 0.7;
+    text-align: center;
+    width: 170px;
+    z-index: 2;
+    background-color: #F9EDBE;
+    border-color: #F0C36D;
+    color: #454545;
+}
+.actigate-admin-infocenters-newinfocenter{
+
+}
+
+.btn {
+    border: 0;
+    outline: 0;
+    font-size: 15px;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 10px 15px;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-transition: 0.25s linear;
+    transition: 0.25s linear;
+    text-align:center;
+    cursor:pointer;
+@media screen and (max-width: $break-small) {
+    width: 100%;
+}
+}
+
+.btn:hover,
+.btn:focus {
+    color: $buttonTextColor;
+}
+
+.btn:active,
+.btn.active {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+    background-color: $defaultBtnColor;
+    color: rgba(255, 255, 255, 0.75);
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+
+/**
+bootstrap, flat ui buttons
+*/
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.btn-hg {
+    padding: 13px 20px;
+    font-size: 22px;
+    line-height: 1.227;
+    border-radius: 6px;
+}
+.btn-lg {
+    padding: 10px 19px;
+    font-size: 17px;
+    line-height: 1.471;
+    border-radius: 6px;
+}
+.btn-sm {
+    padding: 9px 13px;
+    font-size: 13px;
+    line-height: 1.385;
+    border-radius: 4px;
+}
+.btn-xs {
+    padding: 6px 9px;
+    font-size: 12px;
+    line-height: 1.083;
+    border-radius: 3px;
+}
+
 
 /****************************************/
 /* General HTML styles  for ShareWidget       */
 /****************************************/
-
 
 .actigate-share-panel{
     margin-left: 12px;
@@ -29,34 +153,8 @@ body, td, a, div, .p {
     cursor:pointer;
     display: inline-block;
 }
-/*.actigate-share-panel-checkbox>input{*/
-/*position: absolute;*/
-/*overflow: hidden;*/
-/*clip: rect(0 0 0 0);*/
-/*height:1px;*/
-/*width:1px;*/
-/*margin:-1px;*/
-/*padding:0;*/
-/*border:0;*/
 
-/*}*/
 
-/*.actigate-share-panel-checkbox>input[type=checkbox]:checked + label{*/
-/*background-position: 0 -15px;*/
-/*}*/
-/*.actigate-share-panel-checkbox>label{*/
-/*padding-left:20px;*/
-/*display:inline-block;*/
-/*line-height:15px;*/
-/*background-repeat:no-repeat;*/
-/*background-position: 0 0;*/
-/*font-size:15px;*/
-/*vertical-align:middle;*/
-/*cursor:pointer;*/
-/*background-image: url("/src/com/mySampleApplication/client/lite-blue-check.png");*/
-/*height: 15px;*/
-/*width: 15px;*/
-/*}*/
 
 .actigate-share-panel-checkbox>input {
     display: none;
@@ -88,10 +186,6 @@ body, td, a, div, .p {
     color: #3B95D1;
     font-weight: 500;
 }
-
-
-
-
 
 .actigate-share-panel-upgrade{
     border: 1px solid #FBD980;
@@ -149,6 +243,13 @@ body, td, a, div, .p {
     display: inline-table;
 }
 
+.actigate-share-panel-title-label{
+    color: #E67E22;
+    font-size: 16px;
+    padding-top: 10px;
+    margin-bottom:10px;
+    clear: both;
+}
 .actigate-share-panel-environments-right-labels{
     color: #cccccc;
     text-decoration: underline;
@@ -162,6 +263,8 @@ body, td, a, div, .p {
 .actigate-share-panel-environments-right-panel{
     display: inline;
     float: right;
+    position: relative;
+    top: 5px;
 }
 
 .actigate-share-panel-environments-content-panel {
@@ -181,7 +284,7 @@ body, td, a, div, .p {
 
 .actigate-share-panel-repeat-panel{
     background-color: #F1F1F1;
-    padding: 3px 8px 10px 8px;
+    padding: 3px 8px 1px 8px;
     width: 100%;
 }
 
@@ -219,79 +322,148 @@ body, td, a, div, .p {
 }
 
 .actigate-share-panel-member-field{
-    margin-right: 5px;
+    margin-right: 10px;
     margin-bottom: 10px;
-    width: 77%;
+    width: 67%;
     border-radius: 4px;
     border: solid 1px #cacaca;
-    height: 27px;
+    height: 40px;
+    position: relative;
+    top: 1px;
 }
-
+/*
 .actigate-share-panel-sharing-environments-panel-btn{
     border-radius: 3px;
     background-color: #62CAAF;
     border: 3px solid #62CAAF;
     color: #F1F1F1;
 }
-
 .actigate-share-panel-sharing-environments-panel-btn-click{
     border-radius: 3px;
     background-color: #1b9a6c;
     border: 3px solid #62CAAF;
     color: #F1F1F1;
 }
+*/
+.actigate-share-panel-memberpanel>button {
+@media screen and (max-width: 768px)
+        width: inherit;
+    }
+    .actigate-share-panel-radio-btn{
+        clear: both;
+        float: left;
+        margin-left: 10px;
+        cursor:pointer;
+    }
+    .actigate-share-panel-radio-btn>label{
+        font-weight: normal;
+        margin-left: 8px;
+    }
 
-.actigate-share-panel-radio-btn{
-    clear: both;
-    float: left;
-    margin-left: 10px;
-    cursor:pointer;
+    .actigate-share-panel-radio-btn>input {
+        vertical-align: top;
+        width: 20px;
+        height: 20px;
+        margin: 0 3px 0 0;
+    }
+    .actigate-share-panel-radio-btn>input + label {
+        cursor: pointer;
+    }
+    .actigate-share-panel-radio-btn>input:not(checked) {
+        position: absolute;
+        opacity: 0;
+    }
+    .actigate-share-panel-radio-btn>input:not(checked) + label {
+        position: relative;
+        padding: 0 0 0 20px;
+    }
+    .actigate-share-panel-radio-btn>input:not(checked) + label:before {
+        content: '';
+        position: absolute;
+        top: 0px;
+        left: -2px;
+        width: 17px;
+        height: 17px;
+        border: 1px solid #CDD1DA;
+        border-radius: 50%;
+        background: #FFF;
+    }
+    .actigate-share-panel-radio-btn>input:not(checked) + label:after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 1px;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #51A1D8;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .5);
+        opacity: 0;
+    }
+    .actigate-share-panel-radio-btn>input:checked + label:after {
+        opacity: 1;
+    }
+
+
+
+
+
+
+
+.actigate-setting-share-panel-image-panel{
+    height: 90px;
+    width: 90px;
+    padding: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 15px;
 }
-.actigate-share-panel-radio-btn>label{
-    font-weight: normal;
+
+.actigate-setting-share-panel{
+    width: 100%;
+}
+
+.actigate-setting-share-panel-main-channels-panel{
+    width: 100%;
+}
+
+
+.actigate-setting-share-panel-other-label{
+    margin-top: 5px;
     margin-left: 8px;
 }
 
-.actigate-share-panel-radio-btn>input {
-    vertical-align: top;
-    width: 20px;
-    height: 20px;
-    margin: 0 3px 0 0;
+.actigate-setting-share-panel-members-panel {
+    width: 100%;
+    border-top: 1px dashed;
+    border-right-style: none;
+    /*border-bottom: 1px dashed;*/
+    border-left-style: none;
+    margin-top: 0px;
+    display: inline-block;
+    margin-bottom: 7px;
 }
-.actigate-share-panel-radio-btn>input + label {
-    cursor: pointer;
+.actigate-setting-share-panel-members-label{
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
-.actigate-share-panel-radio-btn>input:not(checked) {
-    position: absolute;
-    opacity: 0;
+
+
+.actigate-setting-share-panel-left-panel{
+    display: inline-block;
 }
-.actigate-share-panel-radio-btn>input:not(checked) + label {
+
+.actigate-setting-share-panel-right-labels{
+    float: right;
     position: relative;
-    padding: 0 0 0 20px;
+    top: 29px;
+    margin-right: 20px;
 }
-.actigate-share-panel-radio-btn>input:not(checked) + label:before {
-    content: '';
-    position: absolute;
-    top: 0px;
-    left: -2px;
-    width: 17px;
-    height: 17px;
-    border: 1px solid #CDD1DA;
-    border-radius: 50%;
-    background: #FFF;
+
+.actigate-setting-share-panel-right-label-panel{
+    float: right;
 }
-.actigate-share-panel-radio-btn>input:not(checked) + label:after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 1px;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: #51A1D8;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .5);
-    opacity: 0;
-}
-.actigate-share-panel-radio-btn>input:checked + label:after {
-    opacity: 1;
+.actigate-setting-share-panel-other-panel{
+    margin-top: 10px;
+    display: inline-block;
+    margin-left: 10px;
 }
