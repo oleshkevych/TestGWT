@@ -137,11 +137,11 @@ public class ShareWidget{
 
     public Panel sharingCategories(Image image, String groupName, boolean preview, boolean rightMenu){
         Panel panel = new FlowPanel();
-        panel.setStylePrimaryName("actigate-share-panel-environments-content-panel");
-        image.setStylePrimaryName("actigate-share-panel-environments-table-images");
-        Label groupNameLabel = new Label(groupName);
-        groupNameLabel.setStylePrimaryName("actigate-share-panel-environments-table-images");
-        if(rightMenu) {
+            panel.setStylePrimaryName("actigate-share-panel-environments-content-panel");
+            image.setStylePrimaryName("actigate-share-panel-environments-table-images");
+            Label groupNameLabel = new Label(groupName);
+            groupNameLabel.setStylePrimaryName("actigate-share-panel-environments-table-images");
+            if(rightMenu) {
             final CheckBox checkBox = new CheckBox();
             checkBox.setStylePrimaryName("actigate-share-panel-checkbox");
             Label previewLabel = new Label("Preview");

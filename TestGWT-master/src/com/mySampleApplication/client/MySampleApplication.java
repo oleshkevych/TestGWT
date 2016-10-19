@@ -1,11 +1,11 @@
 package com.mySampleApplication.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>
@@ -19,9 +19,9 @@ public class MySampleApplication implements EntryPoint {
 
         final SimplePanel view = new SimplePanel();
 
-        view.add(initMyView());
+//        view.add(new SettingSecond().getView());
         view.setStylePrimaryName("view-style");
-//        initMyView();
+        view.add(initMyView());
 
         RootPanel.get("slot2").add(view);
     }
@@ -62,16 +62,16 @@ public class MySampleApplication implements EntryPoint {
         facebookImage.setSize("20px", "20px");
         slack.setSize("20px", "20px");
         mainChannelsPanel.add(mainChannels(email, "Email", "Members of this group", false));
-        mainChannelsPanel.add(mainChannels(facebookImage, "Facebook", "/facebookGroupName", true));
+//        mainChannelsPanel.add(mainChannels(facebookImage, "Facebook", "/facebookGroupName", true));
         mainChannelsPanel.add(mainChannels(slack, "Slack", "/slackGroupName", true));
         Panel emptyPanel = new HorizontalPanel();
         emptyPanel.setStylePrimaryName("actigate-setting-share-panel-members-panel");
         mainChannelsPanel.add(emptyPanel);
         mainChannelsPanel.setStylePrimaryName("actigate-setting-share-panel-main-channels-panel");
 
-        otherChannelsPanel.add(otherChanels(facebook, "Facebook"));
-        otherChannelsPanel.add(otherChanels(whatsapp, "Whatsapp"));
-        otherChannelsPanel.add(otherChanels(pinterest, "Pinterest"));
+        otherChannelsPanel.add(otherChancels(facebook, "Facebook"));
+        otherChannelsPanel.add(otherChancels(whatsapp, "Whatsapp"));
+        otherChannelsPanel.add(otherChancels(pinterest, "Pinterest"));
 
         mainPanel.add(mainChannelsLabel);
         mainPanel.add(mainChannelsPanel);
@@ -80,18 +80,48 @@ public class MySampleApplication implements EntryPoint {
         mainPanel.setStylePrimaryName("actigate-setting-share-panel");
         return mainPanel;
     }
-    private Widget otherChanels(Image image, String name){
-        Panel otherChanelPanel = new FlowPanel();
-        otherChanelPanel.setStylePrimaryName("actigate-setting-share-panel-other-panel");
+    private Widget otherChancels(final Image image, String name){
+        Panel otherChannelPanel = new FlowPanel();
+        otherChannelPanel.setStylePrimaryName("actigate-setting-share-panel-other-panel");
         Panel panel = new FlowPanel();
         panel.setStylePrimaryName("actigate-setting-share-panel-image-panel");
         image.setSize("60px", "60px");
         panel.add(image);
         Label label = new Label(name);
+
+        Panel descriptionPanel = new FlowPanel();
+        Label l1 = new Label("Connect to");
+        Label l2 = new Label(name);
+        Button btnHidden = new Button("Connect");
+        l1.setStylePrimaryName("actigate-setting-share-panel-image-panel-hidden-label");
+        l2.setStylePrimaryName("actigate-setting-share-panel-image-panel-hidden-label");
+        btnHidden.setStylePrimaryName("actigate-setting-share-panel-image-panel-hidden-button");
+        btnHidden.addStyleName("btn");
+        btnHidden.addStyleName("btn-primary");
+        descriptionPanel.add(l1);
+        descriptionPanel.add(l2);
+        descriptionPanel.add(btnHidden);
+        descriptionPanel.setVisible(false);
+        panel.add(descriptionPanel);
+
+
+        panel.sinkEvents(Event.ONMOUSEOVER);
+        panel.sinkEvents(Event.ONMOUSEOUT);
+        panel.addHandler(new MouseOverHandler() {
+            @Override
+            public void onMouseOver(MouseOverEvent event) {
+                image.setVisible(false);
+                descriptionPanel.setVisible(true);
+            }
+        }, MouseOverEvent.getType());
+
+
+
         label.setStylePrimaryName("actigate-setting-share-panel-other-label");
-        otherChanelPanel.add(panel);
-        otherChanelPanel.add(label);
-        return otherChanelPanel;
+        otherChannelPanel.add(panel);
+        otherChannelPanel.add(label);
+
+        return otherChannelPanel;
     }
 
     private Widget mainChannels(Image image, String name, String groupName, boolean isRemovable){
@@ -113,10 +143,19 @@ public class MySampleApplication implements EntryPoint {
         Label deleteLabel = new Label("Delete");
         manageLabel.setStylePrimaryName("actigate-setting-share-panel-right-labels");
         labelsPanel.addStyleName("actigate-setting-share-panel-right-label-panel");
+        deleteLabel.setStylePrimaryName("actigate-setting-share-panel-right-labels");
+
+
+
+
         if (isRemovable) {
-            deleteLabel.setStylePrimaryName("actigate-setting-share-panel-right-labels");
             labelsPanel.add(deleteLabel);
+            manageLabel.addStyleName("actigate-setting-share-panel-right-labels-single");
         }
+
+
+
+
         labelsPanel.add(manageLabel);
         channelPanel.add(leftViews);
         channelPanel.add(labelsPanel);
