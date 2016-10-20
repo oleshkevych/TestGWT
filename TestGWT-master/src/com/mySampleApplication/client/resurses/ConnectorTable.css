@@ -1,0 +1,47 @@
+@CHARSET "ISO-8859-1";
+
+.cellTableWidget{
+	border-collapse:collapse;	
+	width:100%;
+}
+
+.cellTableHeader{
+	border-bottom: 1px dashed #BBBBBB;
+	color:#4B4B4A;
+	text-shadow:none;
+}
+.cellTableCell {
+  padding: 15px;
+  border:none;
+  color:#555;
+  font-size:15px;
+}
+
+
+.cellTableEvenRow {
+  background-color:white;
+  border-bottom: 1px dashed #ccc;
+}
+
+.cellTableOddRow {
+  background-color: white;
+    border-bottom: 1px dashed #ccc;
+  
+}
+.cellTableHoveredRow {
+  background-color: #f0f0f0;
+}
+
+.cellTableHoveredRowCell {
+  background-color: #f0f0f0;
+}
+
+.cellTableSelectedRow {
+  background-color: white;
+}
+
+.cellTableSelectedRowCell {
+  background-color: white;
+}
+
+

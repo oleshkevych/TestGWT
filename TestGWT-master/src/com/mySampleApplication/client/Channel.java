@@ -8,22 +8,24 @@ public class Channel {
     private long id;
     private String title;
     private String description;
+    private String channelText;
     private String logoUrl;
     private String footerLogoUrl;
-    private ChannelsNames channelsNames;
+    private ChannelsNames channelName;
     private boolean isConnected;
     private boolean allowingDelete;
 
     public Channel() {
     }
 
-    public Channel(long id, String description, String logoUrl, String footerLogoUrl, ChannelsNames channelsNames, boolean isConnected, boolean allowingDelete) {
+    public Channel(long id, String description, String channelText, String logoUrl, String footerLogoUrl, ChannelsNames channelName, boolean isConnected, boolean allowingDelete) {
         this.id = id;
-        this.title = channelsNames.getDisplayName();
+        this.title = channelName.getDisplayName();
         this.description = description;
+        this.channelText = channelText;
         this.logoUrl = logoUrl;
         this.footerLogoUrl = footerLogoUrl;
-        this.channelsNames = channelsNames;
+        this.channelName = channelName;
         this.isConnected = isConnected;
         this.allowingDelete = allowingDelete;
     }
@@ -48,8 +50,8 @@ public class Channel {
         return footerLogoUrl;
     }
 
-    public ChannelsNames getChannelsNames() {
-        return channelsNames;
+    public ChannelsNames getChannelName() {
+        return channelName;
     }
 
     public boolean isConnected() {
@@ -59,4 +61,13 @@ public class Channel {
     public boolean isAllowingDelete() {
         return allowingDelete;
     }
+
+    public String getChannelText() {
+        return channelText;
+    }
+
+    public void setConnected(boolean connected) {
+        isConnected = connected;
+    }
+
 }

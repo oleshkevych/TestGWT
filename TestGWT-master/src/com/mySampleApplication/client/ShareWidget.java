@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class ShareWidget{
 
 
-    private FlowPanel upgradePanel = new FlowPanel();
+ /*   private FlowPanel upgradePanel = new FlowPanel();
     private Label upgradeLabel = new Label("Upgrade");
 
     private FlowPanel sharingEnvironmentsPanel = new FlowPanel();
@@ -289,5 +289,5 @@ public class ShareWidget{
                 log.log(Level.INFO, event.getRelativeElement().getClassName());
             }
         });
-    }
+    }*/
 }

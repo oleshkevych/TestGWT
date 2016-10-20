@@ -11,12 +11,27 @@ public interface ChannelsImages  extends ClientBundle {
 
     public static final ChannelsImages INSTANCE =  GWT.create(ChannelsImages.class);
 
+    @Source("slack.png")
     ImageResource slack();
-//    ImageResource fortnoxF3_med();
+    @Source("slack_small.png")
+    ImageResource slack_small();
 //    ImageResource fortnoxF3_small();
-
+    @Source("whatsapp.png")
     ImageResource whatsapp();
-//    ImageResource sie_med();
+    @Source("whatsapp_small.png")
+    ImageResource whatsapp_small();
 //    ImageResource sie_small();
+    @Source("email.png")
+    ImageResource email();
+    @Source("email_small.png")
+    ImageResource email_small();
+//    ImageResource fortnoxF3_small();
+    @Source("pinterest.png")
+    ImageResource pinterest();
+    @Source("pinterest_small.png")
+    ImageResource pinterest_small();
+//    ImageResource sie_small();
+
+
 
 }
