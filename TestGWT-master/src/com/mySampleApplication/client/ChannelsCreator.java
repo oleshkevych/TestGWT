@@ -11,7 +11,7 @@ import static com.mySampleApplication.client.ChannelsNames.*;
 /**
  * Created by rolique_pc on 10/19/2016.
  */
-public class ChannelsCreator implements ChannelsControllerSelection.ChannelSelectionCallback,ChannelsInstance.ChannelsInstancesCallback{
+public class ChannelsCreator implements ChannelsControllerSelection.ChannelSelectionCallback,ChannelsInstance.ChannelsInstancesCallback, ConfirmShareController.ConfirmShareCallback{
     private SimplePanel viewContainer = new SimplePanel();
     private FlowPanel mainPageLayout = new FlowPanel();
 
@@ -25,22 +25,23 @@ public class ChannelsCreator implements ChannelsControllerSelection.ChannelSelec
 
     public ChannelsCreator(){
         initChannels();
-        channelsControllerSelection = new ChannelsControllerSelection(channels, this);
-        channelsInstance = new ChannelsInstance(channels, this);
+//        channelsControllerSelection = new ChannelsControllerSelection(channels, this);
+//        channelsInstance = new ChannelsInstance(channels, this);
+//
+//        mainPageLayout.setStylePrimaryName("col-md-6");
+//        mainPageLayout.add(channelsInstance.getMainView());
+//        mainPageLayout.add(new HTML("<div style=\"margin-top: 50px;\"><h4 style=\"font-size: 1.3em;\">Connect to another service</h4></div>"));
+//        mainPageLayout.add(channelsControllerSelection.getMainView());
 
-        mainPageLayout.setStylePrimaryName("col-md-6");
-        mainPageLayout.add(channelsInstance.getMainView());
-        mainPageLayout.add(new HTML("<div style=\"margin-top: 50px;\"><h4 style=\"font-size: 1.3em;\">Connect to another service</h4></div>"));
-        mainPageLayout.add(channelsControllerSelection.getMainView());
-
+        refreshWidgets();
         displayMainView();
 
     }
     private void initChannels(){
-        channels.add(new Channel(0, "Connect your Slack", "Share the information to your page on Slack", "", "", SLACK, true, true));
-        channels.add(new Channel(1, "Connect your Email", "Share the information to your Email","", "", EMAIL, false, false));
-        channels.add(new Channel(2, "Connect your Whatsapp", "Share the information to your page on Whatsapp","", "", WHATSAPP, false, true));
-        channels.add(new Channel(3, "Connect your Pinterest", "Share the information to your page on Pinterest","", "", PINTEREST, false, true));
+        channels.add(new Channel(0, "Connect your Email", "Share the information to your Email","", "", EMAIL, false, false));
+        channels.add(new Channel(1, "Connect your Slack", "Share the information to your page on Slack", "", "", SLACK, true, true));
+//        channels.add(new Channel(2, "Connect your Whatsapp", "Share the information to your page on Whatsapp","", "", WHATSAPP, false, true));
+//        channels.add(new Channel(3, "Connect your Pinterest", "Share the information to your page on Pinterest","", "", PINTEREST, false, true));
     }
 
     private Widget displayMainView(){
@@ -53,7 +54,7 @@ public class ChannelsCreator implements ChannelsControllerSelection.ChannelSelec
 
     private void refreshWidgets(){
         mainPageLayout.clear();
-        ChannelsControllerSelection channelsControllerSelection = new ChannelsControllerSelection(channels, this);
+        channelsControllerSelection = new ChannelsControllerSelection(channels, this);
         channelsInstance = new ChannelsInstance(channels, this);
         channelsControllerSelection.updateChannelsView();
 
@@ -63,6 +64,12 @@ public class ChannelsCreator implements ChannelsControllerSelection.ChannelSelec
         mainPageLayout.add(channelsControllerSelection.getMainView());
     }
 
+    private void showConfirmPanel(Channel channel){
+        mainPageLayout.clear();
+        mainPageLayout.setStylePrimaryName("col-md-4");
+//        mainPageLayout.setWidth("250px");
+        mainPageLayout.add(new ConfirmShareController(channel, this).getView());
+    }
 
     @Override
     public void onChannelSelectionSelected(Channel channel) {
@@ -78,6 +85,11 @@ public class ChannelsCreator implements ChannelsControllerSelection.ChannelSelec
 
     @Override
     public void onClickManage(Channel channel) {
+        showConfirmPanel(channel);
+    }
 
+    @Override
+    public void onClickBtn() {
+        refreshWidgets();
     }
 }

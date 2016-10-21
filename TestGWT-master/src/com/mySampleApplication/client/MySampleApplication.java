@@ -1,16 +1,17 @@
 package com.mySampleApplication.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.mySampleApplication.client.Share.ShareWidget;
+import com.mySampleApplication.client.Share.Upgrade;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>
  */
-public class MySampleApplication implements EntryPoint {
+public class MySampleApplication implements EntryPoint, ShareWidget.SharePanelCallback{
+
+
 
     /**
      * This is the entry point method.
@@ -20,12 +21,40 @@ public class MySampleApplication implements EntryPoint {
         final SimplePanel view = new SimplePanel();
 
         ChannelsCreator cc = new ChannelsCreator();
-//        view.add(new SettingSecond().getView());
+//        view.add(new ConfirmShareController().getView());
 //        view.setStylePrimaryName("view-style");
         view.setWidget(cc.getView());
 //        view.setWidget(new Label("Test"));
 
+//        ShareWidget shareWidget = new ShareWidget(this);
+//        view.add(shareWidget);
+//        view.setWidth("390px");
         RootPanel.get("slot2").add(view);
+    }
+
+    @Override
+    public void onUpgrade(Upgrade upgrade) {
+
+    }
+
+    @Override
+    public void onShare() {
+
+    }
+
+    @Override
+    public void onPreview() {
+
+    }
+
+    @Override
+    public void onSetting() {
+
+    }
+
+    @Override
+    public void isRepeat() {
+
     }
 
     private static class MyAsyncCallback implements AsyncCallback<String> {

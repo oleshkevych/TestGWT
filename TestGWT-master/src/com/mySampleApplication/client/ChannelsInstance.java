@@ -69,16 +69,17 @@ public class ChannelsInstance {
             }
         }
 
-        if(tableChannels.size() == 0){
-            tableChannels.add(channels.get(0));
+        if(tableChannels.size() != 0) {
+//            tableChannels.add(channels.get(0));
+//        }
+            provider = new ListDataProvider<Channel>();
+            provider.setList(tableChannels);
+            selectionModel = new SingleSelectionModel<Channel>(
+                    INSTANCES_KEY_PROVIDER);
+            initInstancesTable();
+            provider.addDataDisplay(instancesTable);
+            layoutContainer.add(instancesTable);
         }
-        provider = new ListDataProvider<Channel>();
-        provider.setList(tableChannels);
-        selectionModel = new SingleSelectionModel<Channel>(
-                INSTANCES_KEY_PROVIDER);
-        initInstancesTable();
-        provider.addDataDisplay(instancesTable);
-        layoutContainer.add(instancesTable);
     }
 
 

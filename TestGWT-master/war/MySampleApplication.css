@@ -4134,7 +4134,8 @@ FLIP
 
 .actigate-share-setting-confirm-panel-buttons-panel{
     position: relative;
-    top: 110px;
+    top: 130px;
+    margin-left: 0;
 }
 
 .actigate-share-setting-confirm-panel-button{
