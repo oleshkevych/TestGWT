@@ -1,10 +1,11 @@
 package com.mySampleApplication.client.Share;
 
+import com.google.gwt.aria.client.ListitemRole;
 import com.google.gwt.user.client.rpc.core.java.lang.Boolean_CustomFieldSerializer;
 import com.google.gwt.user.client.ui.Image;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.mySampleApplication.client.Channel;
+
+import java.util.*;
 
 import static com.mySampleApplication.client.Share.ShareGroups.NOBODY;
 
@@ -14,25 +15,40 @@ import static com.mySampleApplication.client.Share.ShareGroups.NOBODY;
 public class Upgrade {
 
 
-    private List<Boolean> checkedChannels;
+//    private List<Boolean> checkedChannels;
     private boolean isRepeat;
     private int repeatId;
     private String shareGroup;
+    private Map<String, Boolean> checkedChannels;
 
-    public Upgrade() {
+    public Upgrade(List<String> listChannels) {
 
-        this.checkedChannels = new ArrayList<>(Arrays.asList(new Boolean[]{false, false}));
+//        this.checkedChannels = new ArrayList<>(Arrays.asList(new Boolean[]{false, false}));
         this.isRepeat = false;
         this.shareGroup = NOBODY.getGroupName();
+        this.checkedChannels = new HashMap<String, Boolean>();
+        for(String c: listChannels) {
+            this.checkedChannels.put(c, false);
+        }
+
+
     }
 
 
-    public List<Boolean> getCheckedChannels() {
-        return checkedChannels;
-    }
+//    public List<Boolean> getCheckedChannels() {
+//        return checkedChannels;
+//    }
+//
+//    public void setCheckedChannels(List<Boolean> checkedChannels) {
+//        this.checkedChannels = checkedChannels;
+//    }
 
-    public void setCheckedChannels(List<Boolean> checkedChannels) {
+    public void setCheckedChannels(Map<String, Boolean> checkedChannels) {
         this.checkedChannels = checkedChannels;
+    }
+
+    public Map<String, Boolean> getCheckedChannels() {
+        return checkedChannels;
     }
 
     public boolean isRepeat() {
@@ -57,5 +73,15 @@ public class Upgrade {
 
     public void setShareGroup(String shareGroup) {
         this.shareGroup = shareGroup;
+    }
+
+    @Override
+    public String toString() {
+        return "Upgrade{" +
+                "isRepeat=" + isRepeat +
+                ", repeatId=" + repeatId +
+                ", shareGroup='" + shareGroup + '\'' +
+                ", checkedChannels=" + checkedChannels +
+                '}';
     }
 }

@@ -7,9 +7,17 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,13 +34,13 @@ public class ShareWidget extends Composite  implements  ClickHandler{
     public interface SharePanelCallback{
 
         public void onUpgrade(Upgrade upgrade);
-        public void onShare();
-        public void onPreview();
+        public void onShare(ShareChannel channel);
+        public void onPreview(ShareChannel channel);
         public void onSetting();
 
     }
 
-    private class ShareChannel{
+    public class ShareChannel{
         private String name;
         private String nameP;
         private String groupName;
@@ -92,9 +100,24 @@ public class ShareWidget extends Composite  implements  ClickHandler{
         public void setPreview(boolean preview) {
             this.preview = preview;
         }
+
+        @Override
+        public String toString() {
+            return "ShareChannel{" +
+                    "name='" + name + '\'' +
+                    ", nameP='" + nameP + '\'' +
+                    ", groupName='" + groupName + '\'' +
+                    ", image=" + image +
+                    ", preview=" + preview +
+                    ", checked=" + checked +
+                    '}';
+        }
     }
 
     private SharePanelCallback callback;
+    private final String SETTINGS = "settings";
+    private final String EMAIL_NAME = "Email";
+    private final String SLACK_NAME = "Slack";
 
     private FlowPanel upgradePanel = new FlowPanel();
     private Label upgradeLabel = new Label("Upgrade");
@@ -113,7 +136,7 @@ public class ShareWidget extends Composite  implements  ClickHandler{
 
     private SimplePanel view = new SimplePanel();
 
-    private Upgrade upgrade = new Upgrade();
+    private Upgrade upgrade;
     private ShareChannel email;
     private ShareChannel slack;
     private Panel mainContainer = new FlowPanel();
@@ -133,8 +156,15 @@ public class ShareWidget extends Composite  implements  ClickHandler{
         emailImage.setSize("20px", "15px");
         Image slackImage = new Image(Images.INSTANCE.slack());
         slackImage.setSize("20px", "20px");
-        email = new ShareChannel("Email", "(Group name)", emailImage, true);
-        slack = new ShareChannel("Slack", "(Group name)", slackImage, false);
+        email = new ShareChannel(EMAIL_NAME, "(Group name)", emailImage, true);
+        slack = new ShareChannel(SLACK_NAME, "(Group name)", slackImage, false);
+        List<String> channels = new ArrayList<String>(Arrays.asList(new String[]{email.getName(), slack.getName()}));
+        GWT.log(channels.toString());
+        upgrade = new Upgrade(channels);
+
+
+
+
         init();
         initWidget(view);
     }
@@ -189,7 +219,7 @@ public class ShareWidget extends Composite  implements  ClickHandler{
         slackPanel.setStylePrimaryName("actigate-share-panel-environments-panel");
 
         settingsLabel.setStylePrimaryName("actigate-share-panel-sharing-environments-panel-label-settings");
-        settingsLabel.getElement().setId("setting");
+        settingsLabel.getElement().setId(SETTINGS);
         settingsLabel.addClickHandler(this);
 
         sharingEnvironmentsPanel.add(descriptionLabel);
@@ -294,13 +324,23 @@ public class ShareWidget extends Composite  implements  ClickHandler{
     private Widget initMembersPanel() {
         Panel panel = new FlowPanel();
         final Panel textBoxPanel = new FlowPanel();
-        TextBox textBox = new TextBox();
+        final TextBox textBox = new TextBox();
+        textBox.setValue("LINK");
+        textBox.getElement().setId("linkToCopy");
         textBox.setStylePrimaryName("actigate-share-panel-member-field");
         final Button copyBtn = new Button("Copy");
         copyBtn.setStylePrimaryName("btn");
         copyBtn.addStyleName("btn-primary");
         copyBtn.addStyleName("actigate-share-panel-sharing-environments-panel-btn");
-        copyBtn.addClickHandler(this);
+        copyBtn.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                GWT.log("Click");
+                copyToClipboard();
+
+
+            }
+        });
         textBoxPanel.setStylePrimaryName("actigate-share-panel-memberpanel");
         textBoxPanel.add(textBox);
         textBoxPanel.add(copyBtn);
@@ -344,7 +384,6 @@ public class ShareWidget extends Composite  implements  ClickHandler{
         panel.add(nobodyRB);
         panel.add(groupMembersRB);
         panel.add(anyoneRB);
-        // formPanel.add(panel);
 
         return panel;
     }
@@ -355,16 +394,33 @@ public class ShareWidget extends Composite  implements  ClickHandler{
     public void onClick(ClickEvent event) {
         if(event.getRelativeElement().getId().equals("upgrade")){
             if(email.isChecked()){
-                upgrade.getCheckedChannels().set(0, true);
+                upgrade.getCheckedChannels().put("Email", true);
             }
             if(slack.isChecked()){
-                upgrade.getCheckedChannels().set(1, true);
+                upgrade.getCheckedChannels().put("Slack", true);
+
             }
             callback.onUpgrade(upgrade);
-        }else if(event.getRelativeElement().getId().equals("settings")){
+        }else if(event.getRelativeElement().getId().equals(SETTINGS)){
             callback.onSetting();
         }else if(event.getRelativeElement().getId().equals(email.getName())){
-           callback.onShare();
+           callback.onShare(email);
+        }else if(event.getRelativeElement().getId().equals(slack.getName())){
+            callback.onShare(slack);
+        }else if((email.isPreview())&&(event.getRelativeElement().getId().equals(email.getNameP()))){
+            callback.onPreview(email);
+        }else if((slack.isPreview())&&(event.getRelativeElement().getId().equals(slack.getNameP()))){
+            callback.onPreview(slack);
         }
     }
+
+    public static native void copyToClipboard() /*-{
+        var aux = $doc.createElement("input");
+        aux.setAttribute("value", $doc.getElementById("linkToCopy").value);
+        $doc.body.appendChild(aux);
+        aux.select();
+        $doc.execCommand("copy");
+        $doc.body.removeChild(aux);
+
+    }-*/;
 }

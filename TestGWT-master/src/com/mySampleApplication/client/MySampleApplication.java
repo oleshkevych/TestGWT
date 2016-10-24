@@ -1,6 +1,7 @@
 package com.mySampleApplication.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.mySampleApplication.client.Share.ShareWidget;
@@ -20,41 +21,46 @@ public class MySampleApplication implements EntryPoint, ShareWidget.SharePanelCa
 
         final SimplePanel view = new SimplePanel();
 
-        ChannelsCreator cc = new ChannelsCreator();
+//        ChannelsCreator cc = new ChannelsCreator();
 //        view.add(new ConfirmShareController().getView());
-//        view.setStylePrimaryName("view-style");
-        view.setWidget(cc.getView());
+        view.setStylePrimaryName("view-style");
+//        view.setWidget(cc.getView());
 //        view.setWidget(new Label("Test"));
 
-//        ShareWidget shareWidget = new ShareWidget(this);
-//        view.add(shareWidget);
-//        view.setWidth("390px");
-        RootPanel.get("slot2").add(view);
+        ShareWidget shareWidget = new ShareWidget(this);
+        view.add(shareWidget);
+        view.setWidth("390px");
+        RootPanel.get().add(view);
     }
 
     @Override
     public void onUpgrade(Upgrade upgrade) {
 
+        GWT.log(upgrade.toString());
     }
 
     @Override
-    public void onShare() {
-
+    public void onShare(ShareWidget.ShareChannel channel) {
+        if(channel.getName().equals("Email")){
+            GWT.log("Share Email");
+        }else if(channel.getName().equals("Slack")){
+            GWT.log("Share Slack");
+        }
     }
 
     @Override
-    public void onPreview() {
-
+    public void onPreview(ShareWidget.ShareChannel channel) {
+        if(channel.getName().equals("Email")){
+            GWT.log("Preview Email");
+        }else if(channel.getName().equals("Slack")){
+            GWT.log("Preview Slack");
+        }
     }
+
 
     @Override
     public void onSetting() {
-
-    }
-
-    @Override
-    public void isRepeat() {
-
+        GWT.log("settings");
     }
 
     private static class MyAsyncCallback implements AsyncCallback<String> {
