@@ -4,10 +4,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -15,12 +13,9 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.mySampleApplication.client.Share.ShareGroups.ANYONE;
 import static com.mySampleApplication.client.Share.ShareGroups.GROUP_MEMBERS;
@@ -33,7 +28,7 @@ public class ShareWidget extends Composite  implements  ClickHandler{
 
     public interface SharePanelCallback{
 
-        public void onUpgrade(Upgrade upgrade);
+        public void onUpgrade(ShareTypes shareTypes);
         public void onShare(ShareChannel channel);
         public void onPreview(ShareChannel channel);
         public void onSetting();
@@ -120,7 +115,7 @@ public class ShareWidget extends Composite  implements  ClickHandler{
     private final String SLACK_NAME = "Slack";
 
     private FlowPanel upgradePanel = new FlowPanel();
-    private Label upgradeLabel = new Label("Upgrade");
+    private Label upgradeLabel = new Label("ShareTypes");
     private FlowPanel sharingEnvironmentsPanel = new FlowPanel();
 
     private Label descriptionLabel = new Label("Push sharing");
@@ -136,7 +131,7 @@ public class ShareWidget extends Composite  implements  ClickHandler{
 
     private SimplePanel view = new SimplePanel();
 
-    private Upgrade upgrade;
+    private ShareTypes shareTypes;
     private ShareChannel email;
     private ShareChannel slack;
     private Panel mainContainer = new FlowPanel();
@@ -159,8 +154,7 @@ public class ShareWidget extends Composite  implements  ClickHandler{
         email = new ShareChannel(EMAIL_NAME, "(Group name)", emailImage, true);
         slack = new ShareChannel(SLACK_NAME, "(Group name)", slackImage, false);
         List<String> channels = new ArrayList<String>(Arrays.asList(new String[]{email.getName(), slack.getName()}));
-        GWT.log(channels.toString());
-        upgrade = new Upgrade(channels);
+        shareTypes = new ShareTypes(channels);
 
 
 
@@ -181,7 +175,7 @@ public class ShareWidget extends Composite  implements  ClickHandler{
         mainContainer.add(shareLinkLabel);
         mainContainer.add(initMembersPanel());
         view.setWidget(mainContainer);
-//        view.setStylePrimaryName("actigate-share-panel");
+        view.setStylePrimaryName("actigate-share-panel");
 
     }
 
@@ -301,12 +295,12 @@ public class ShareWidget extends Composite  implements  ClickHandler{
                 if (repeatCheckBox.getValue()) {
                     repeatListBox.setVisible(true);
                     repeatPanel.addStyleName("actigate-share-panel-repeat-list-click-out");
-                    upgrade.setRepeat(true);
-                    upgrade.setRepeatId(repeatListBox.getSelectedIndex());
+                    shareTypes.setRepeat(true);
+                    shareTypes.setRepeatId(repeatListBox.getSelectedIndex());
                 } else {
                     repeatListBox.setVisible(false);
                     repeatPanel.removeStyleName("actigate-share-panel-repeat-list-click-out");
-                    upgrade.setRepeat(false);
+                    shareTypes.setRepeat(false);
                 }
             }
         });
@@ -314,7 +308,7 @@ public class ShareWidget extends Composite  implements  ClickHandler{
         repeatListBox.addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent event) {
-                upgrade.setRepeatId(repeatListBox.getSelectedIndex());
+                shareTypes.setRepeatId(repeatListBox.getSelectedIndex());
             }
         });
 
@@ -367,14 +361,14 @@ public class ShareWidget extends Composite  implements  ClickHandler{
                 @Override
                 public void onValueChange(ValueChangeEvent<Boolean> event) {
                     if (nobodyRB.getValue()) {
-                        upgrade.setShareGroup(NOBODY.getGroupName());
+                        shareTypes.setShareGroup(NOBODY.getGroupName());
                         textBoxPanel.setVisible(false);
                     } else {
                         textBoxPanel.setVisible(true);
                         if (groupMembersRB.getValue()){
-                            upgrade.setShareGroup(GROUP_MEMBERS.getGroupName());
+                            shareTypes.setShareGroup(GROUP_MEMBERS.getGroupName());
                         }else{
-                            upgrade.setShareGroup(ANYONE.getGroupName());
+                            shareTypes.setShareGroup(ANYONE.getGroupName());
                         }
                     }
                 }
@@ -394,13 +388,13 @@ public class ShareWidget extends Composite  implements  ClickHandler{
     public void onClick(ClickEvent event) {
         if(event.getRelativeElement().getId().equals("upgrade")){
             if(email.isChecked()){
-                upgrade.getCheckedChannels().put("Email", true);
+                shareTypes.getCheckedChannels().put("Email", true);
             }
             if(slack.isChecked()){
-                upgrade.getCheckedChannels().put("Slack", true);
+                shareTypes.getCheckedChannels().put("Slack", true);
 
             }
-            callback.onUpgrade(upgrade);
+            callback.onUpgrade(shareTypes);
         }else if(event.getRelativeElement().getId().equals(SETTINGS)){
             callback.onSetting();
         }else if(event.getRelativeElement().getId().equals(email.getName())){

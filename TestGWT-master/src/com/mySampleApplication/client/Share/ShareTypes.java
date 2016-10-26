@@ -12,7 +12,7 @@ import static com.mySampleApplication.client.Share.ShareGroups.NOBODY;
 /**
  * Created by rolique_pc on 10/21/2016.
  */
-public class Upgrade {
+public class ShareTypes {
 
 
 //    private List<Boolean> checkedChannels;
@@ -21,7 +21,7 @@ public class Upgrade {
     private String shareGroup;
     private Map<String, Boolean> checkedChannels;
 
-    public Upgrade(List<String> listChannels) {
+    public ShareTypes(List<String> listChannels) {
 
 //        this.checkedChannels = new ArrayList<>(Arrays.asList(new Boolean[]{false, false}));
         this.isRepeat = false;
@@ -77,7 +77,7 @@ public class Upgrade {
 
     @Override
     public String toString() {
-        return "Upgrade{" +
+        return "ShareTypes{" +
                 "isRepeat=" + isRepeat +
                 ", repeatId=" + repeatId +
                 ", shareGroup='" + shareGroup + '\'' +

@@ -2,10 +2,12 @@ package com.mySampleApplication.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.mySampleApplication.client.Share.ShareWidget;
-import com.mySampleApplication.client.Share.Upgrade;
+import com.mySampleApplication.client.Share.ShareTypes;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>
@@ -13,30 +15,38 @@ import com.mySampleApplication.client.Share.Upgrade;
 public class MySampleApplication implements EntryPoint, ShareWidget.SharePanelCallback{
 
 
-
+//    private final DialogBox dialogBox = createDialogBox();
     /**
      * This is the entry point method.
      */
     public void onModuleLoad() {
 
-        final SimplePanel view = new SimplePanel();
+//        dialogBox.setGlassEnabled(true);
+//        dialogBox.setAnimationEnabled(true);
 
+
+        ShareController s = new ShareController();
+        final SimplePanel view = new SimplePanel();
+//
+//        s.displayEmptyPanel();
 //        ChannelsCreator cc = new ChannelsCreator();
 //        view.add(new ConfirmShareController().getView());
-        view.setStylePrimaryName("view-style");
+//        view.setStylePrimaryName("view-style");
 //        view.setWidget(cc.getView());
 //        view.setWidget(new Label("Test"));
 
-        ShareWidget shareWidget = new ShareWidget(this);
-        view.add(shareWidget);
+//        ShareWidget shareWidget = new ShareWidget(this);
+//        view.add(shareWidget);
+        s.displayEmptyPanel();
+        s.displaySharePanel(false);
         view.setWidth("390px");
+        view.add(s.getView());
         RootPanel.get().add(view);
     }
 
     @Override
-    public void onUpgrade(Upgrade upgrade) {
-
-        GWT.log(upgrade.toString());
+    public void onUpgrade(ShareTypes shareTypes) {
+        GWT.log(shareTypes.toString());
     }
 
     @Override
@@ -62,6 +72,49 @@ public class MySampleApplication implements EntryPoint, ShareWidget.SharePanelCa
     public void onSetting() {
         GWT.log("settings");
     }
+
+    private DialogBox createDialogBox() {
+        final DialogBox dialogBox = new DialogBox();
+
+        VerticalPanel dialogContents = new VerticalPanel();
+        dialogContents.setSpacing(4);
+        dialogBox.setWidget(dialogContents);
+
+        HTML details = new HTML("Really delete this channel???");
+        dialogContents.add(details);
+        dialogContents.setCellHorizontalAlignment(
+                details, HasHorizontalAlignment.ALIGN_CENTER);
+
+        Button OKButton = new Button(
+                "OK", new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                GWT.log("Ok");
+                dialogBox.hide();
+            }
+        });
+        Button closeButton = new Button(
+                "Cancel", new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                GWT.log("NON");
+                dialogBox.hide();
+            }
+        });
+        OKButton.setStylePrimaryName("btn");
+        OKButton.addStyleName("btn-primary");
+        OKButton.addStyleName("actigate-channels-confirm-delete");
+        closeButton.setStylePrimaryName("btn");
+        closeButton.addStyleName("btn-default");
+        closeButton.addStyleName("actigate-channels-confirm-delete");
+        HorizontalPanel buttonsPanel = new HorizontalPanel();
+        dialogContents.add(buttonsPanel);
+        buttonsPanel.add(OKButton);
+        buttonsPanel.setSpacing(8);
+        buttonsPanel.add(new Label("   "));
+        buttonsPanel.add(closeButton);
+        dialogContents.setCellHorizontalAlignment(buttonsPanel, HasHorizontalAlignment.ALIGN_CENTER);
+        return dialogBox;
+    }
+
 
     private static class MyAsyncCallback implements AsyncCallback<String> {
         private Label label;
